@@ -40,10 +40,14 @@ class IntegrationTests(TestCase):
         response = self.client.post(reverse('debitar_creditar-list'), dto, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_list_conta_por_numero_conta(self):
-        response = self.client.get(reverse('contas-list', kwargs={'<numero_conta>': self.conta.numero_conta}))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_create_transacao_debito_credito_parametros_incorretos(self):
+        dto = {
+            "tipo_transacao": "debito",
+            "valor": "50.00",
+            "data_movimento": "28/12/2018",
+            "descricao": "debito teste",
+            "numero_conta": '123456222',
+        }
 
-
-
-
+        response = self.client.post(reverse('debitar_creditar-list'), dto, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
