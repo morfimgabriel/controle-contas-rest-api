@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8011
+    volumes:
+      - .:/code
+    ports:
+      - 8011:8011
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=testenexxera
+    ports:
+      - 5441:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
