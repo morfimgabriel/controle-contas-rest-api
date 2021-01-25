@@ -66,21 +66,20 @@ class TransactionViewSet(viewsets.ModelViewSet):
             return Response("Número da conta para realizar a movimentação não existe", status=404)
 
         conta = Conta.objects.filter(numero_conta=request.data['numero_conta'])
-        saldo_final = None
         if request.data['tipo_transacao'] == 'debito':
             saldo_final = float(conta[0].saldo) - \
                           float(request.data['valor'])
         elif request.data['tipo_transacao'] == 'credito':
             saldo_final = float(conta[0].saldo) + float(request.data['valor'])
-        if saldo_final:
-            extrato = Extrato.objects.filter(numero_conta=numero_conta)
-            if not extrato:
-                Extrato.objects.create(saldo_inicial=conta[0].saldo,
-                                       numero_conta=numero_conta,
-                                       saldo_final=saldo_final)
-            elif extrato:
-                extrato.update(saldo_final=saldo_final)
-            conta.update(saldo=str(saldo_final))
+
+        extrato = Extrato.objects.filter(numero_conta=numero_conta)
+        if not extrato:
+            Extrato.objects.create(saldo_inicial=conta[0].saldo,
+                                   numero_conta=numero_conta,
+                                   saldo_final=saldo_final)
+        elif extrato:
+            extrato.update(saldo_final=saldo_final)
+        conta.update(saldo=str(saldo_final))
 
         transacao_serializer.save()
         return Response(transacao_serializer.data, status=201)
