@@ -56,11 +56,6 @@ class TransactionViewSet(viewsets.ModelViewSet):
         except Conta.DoesNotExist:
             return Response("Número da conta para realizar a movimentação não existe", status=404)
 
-        # Transacoes.objects.create(tipo_transacao=request.data['tipo_transacao'].lower(),
-        #                           valor=request.data.get('valor'),
-        #                           numero_conta=numero_conta,
-        #                           descricao=request.data.get('descricao'))
-
         conta = Conta.objects.filter(numero_conta=request.data['numero_conta'])
         saldo_final = None
         if request.data['tipo_transacao'] == 'debito':

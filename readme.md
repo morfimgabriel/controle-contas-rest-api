@@ -4,7 +4,7 @@ Projeto de contas virtuais onde você pode creditar e debitar em uma conta e ver
 
 Projeto desenvolvido em Django e DjangoRestFramework.
 ```
-(Servidor) => http://localhost:8001
+(Servidor) => http://localhost:8011
 ```
 
 ## Rotas
@@ -29,6 +29,7 @@ A construção do projeto é feita com Docker sendo orquestrada por Docker-Compo
 ```
 $ docker-compose up --build
 $ docker-compose exec web python manage.py migrate
+$ make test
 ```
 
 ## Stack
